@@ -18,16 +18,22 @@ func ShortenHandler(res http.ResponseWriter, req *http.Request) {
     fmt.Printf("the url is %s\n", url)
 
     db := PQConnect()
-    url_id, bool := PQInsertURL(url, db)
-    if !bool {
+    url = ParseURL(url)
+    url_id, ok := PQInsertURL(url, db)
+    if !ok {
         fmt.Printf("URL not inserted into DB")
     }
     fmt.Printf("url inserted id: %d, url: %s\n", url_id, url)
 
     key := Encode(url_id)
-    PQInsertEncodedKey(url_id, key, db)
-    fmt.Printf("Shortened URL: localhost:8080/%s\n", key)
-    fmt.Fprintf(res, "Shortened URL: localhost:8080/%s\n", key)
+    channel := make(chan bool)
+    go func() {
+      PQInsertEncodedKey(url_id, key, db)
+      channel <- true
+    }()
+    fmt.Printf("Shortened URL: localhost:8080/r/%s\n", key)
+    fmt.Fprintf(res, "Shortened URL: localhost:8080/r/%s\n", key)
+    <- channel
 }
 
 func RedirectHandler(res http.ResponseWriter, req *http.Request) {
@@ -41,7 +47,7 @@ func RedirectHandler(res http.ResponseWriter, req *http.Request) {
         return
     }
     fmt.Printf("Original URL: %s\n", url)
-    http.Redirect(res, req, fmt.Sprintf("http://%s", url), http.StatusFound)
+    http.Redirect(res, req, url, http.StatusFound)
 }
 
 func main(){
