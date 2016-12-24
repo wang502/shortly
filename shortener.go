@@ -58,6 +58,7 @@ func Encode(id int) string {
     if id <= 0 {
         return ""
     }
+    id += 1000
     str := make([]rune, 0)
     var rem int
     for id > 0{
@@ -74,7 +75,7 @@ func Decode(str string) int {
     for i, r := range rev_str {
         res += RealNum(r) * int(math.Pow(BASE, float64(i)))
     }
-    return res
+    return res - 1000
 }
 
 /*

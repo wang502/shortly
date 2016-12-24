@@ -2,14 +2,13 @@ package main
 
 import (
     "os"
-    "fmt"
     "database/sql"
     _ "github.com/lib/pq"
 )
 
 func PQConnect() *sql.DB {
     PQ_URL := os.Getenv("PG_URL")
-    fmt.Printf("PG URL: %s\n", PQ_URL)
+    //fmt.Printf("PG URL: %s\n", PQ_URL)
     db, err := sql.Open("postgres", PQ_URL)
     if err != nil {
         return nil
@@ -38,4 +37,16 @@ func PQInsertEncodedKey(id int, key string, db *sql.DB) bool {
         return false
     }
     return true
+}
+
+func PQGetURL(key string, db *sql.DB) string{
+    if db == nil {
+        return ""
+    }
+    var url string
+    err := db.QueryRow(`SELECT url FROM urls WHERE key = $1`, key).Scan(&url)
+    if err != nil {
+        return url
+    }
+    return url
 }
