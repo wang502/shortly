@@ -17,8 +17,7 @@ func PQConnect() *sql.DB {
     return db
 }
 
-func PQInsertURL(url string) (int, bool) {
-    db := PQConnect()
+func PQInsertURL(url string, db *sql.DB) (int, bool) {
     if db == nil{
         return -1, false
     }
@@ -28,4 +27,15 @@ func PQInsertURL(url string) (int, bool) {
         return -1, false
     }
     return url_id, true
+}
+
+func PQInsertEncodedKey(id int, key string, db *sql.DB) bool {
+    if db == nil {
+        return false
+    }
+    err := db.QueryRow(`UPDATE urls SET key = $1 WHERE id = $2`, key, id)
+    if err != nil {
+        return false
+    }
+    return true
 }

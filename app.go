@@ -16,11 +16,19 @@ func ShortenHandler(res http.ResponseWriter, req *http.Request) {
         RenderError(0)
     }
     fmt.Printf("the url is %s\n", url)
-    url_id, bool := PQInsertURL(url)
+
+    db := PQConnect()
+    url_id, bool := PQInsertURL(url, db)
     if !bool {
         fmt.Printf("URL not inserted into DB")
     }
     fmt.Printf("url inserted id: %d, url: %s\n", url_id, url)
+
+    key := Encode(url_id)
+    if !PQInsertEncodedKey(url_id, key, db){
+        fmt.Printf("Failed to insert encoded key into DB")
+    }
+    
 }
 
 func main(){
