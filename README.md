@@ -4,6 +4,7 @@
 A URL shortener service written in Go. The application has a PostgreSQL as backend store.
 
 ### Install
+
 ```
 $ go get github.com/wang502/shortly
 ```
