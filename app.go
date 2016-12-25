@@ -28,8 +28,8 @@ func ShortenHandler(res http.ResponseWriter, req *http.Request) {
     key := Encode(url_id)
     channel := make(chan bool)
     go func() {
-      PQInsertEncodedKey(url_id, key, db)
-      channel <- true
+        PQInsertEncodedKey(url_id, key, db)
+        channel <- true
     }()
     fmt.Printf("Shortened URL: localhost:8080/r/%s\n", key)
     fmt.Fprintf(res, "Shortened URL: localhost:8080/r/%s\n", key)
