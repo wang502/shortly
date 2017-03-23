@@ -1,0 +1,25 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "urMd7A9QPAJYY0GZJL9qBhlUmD8=",
+			"path": "github.com/gorilla/mux",
+			"revision": "757bef944d0f21880861c2dd9c871ca543023cba",
+			"revisionTime": "2016-09-20T23:08:13Z"
+		},
+		{
+			"checksumSHA1": "e+1BYI9y5LUyfSC+lwQF0AXP5sA=",
+			"path": "github.com/lib/pq",
+			"revision": "5bf161122cd640c2a5a2c1d7fa49ea9befff31dd",
+			"revisionTime": "2016-12-20T09:00:36Z"
+		},
+		{
+			"checksumSHA1": "xppHi82MLqVx1eyQmbhTesAEjx8=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "5bf161122cd640c2a5a2c1d7fa49ea9befff31dd",
+			"revisionTime": "2016-12-20T09:00:36Z"
+		}
+	],
+	"rootPath": "github.com/wang502/shortly"
+}
